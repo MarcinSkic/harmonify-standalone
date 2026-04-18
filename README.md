@@ -4,8 +4,11 @@ Multiplayer "Name that tune" game. Guess tracks from your local music library.
 
 ## Running
 
-1. Place your FLAC files in the `music/` folder:
+1. Download `harmonify-standalone.exe` from the [latest release](https://github.com/MarcinSkic/harmonify-standalone/releases/latest) and place it in a folder of your choice.
+
+2. Create a `music/` folder next to the exe and put your FLAC files inside:
    ```
+   harmonify-standalone.exe
    music/
    └── Playlist Name/
        ├── 1. Track Title.flac
@@ -13,9 +16,9 @@ Multiplayer "Name that tune" game. Guess tracks from your local music library.
        └── ...
    ```
 
-2. Run `harmonify-standalone.exe`
+3. Run `harmonify-standalone.exe`
 
-3. Open **http://localhost:51234** in a browser
+4. Open **http://localhost:51234** in a browser
 
 ## Configuration
 
