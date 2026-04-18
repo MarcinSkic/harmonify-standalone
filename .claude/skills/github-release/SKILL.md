@@ -7,16 +7,26 @@ description: "Create a GitHub release for harmonify-standalone. TRIGGER when: us
 
 ## 0. Read build documentation
 
-Read `.claude/docs/build.md` to confirm artifact paths and version marker location.
-**If `.claude/docs/build.md` does not exist — stop immediately and inform the user. Do not proceed until the file is created.**
+Read `.claude/docs/build.md` to get:
+- **GitHub repo** (for CHANGELOG links and `gh release create`)
+- **Sub-repos** to include in change analysis
+- **Artifact paths** pattern (used in build commands and release upload)
+- **CHANGELOG location**
+
+**If `.claude/docs/build.md` does not exist — stop immediately and inform the user.**
+
 Read `.claude/skills/github-release/changelog-example.md` for CHANGELOG format reference.
 
-All commands below run from the repo root (`harmonify-standalone/`). Use absolute path `/home/marcin/repos/harmonify/` if the shell CWD is elsewhere.
+Resolve the repo root dynamically:
+```bash
+REPO_ROOT=$(git rev-parse --show-toplevel)
+```
+
+All subsequent commands run from `$REPO_ROOT`.
 
 ## 1. Get last version tag
 
 ```bash
-cd /home/marcin/repos/harmonify
 git tag --sort=-version:refname | head -1
 ```
 
@@ -24,16 +34,15 @@ Save this as `{PREV_VERSION}` (e.g. `v0.1.0`).
 
 ## 2. Analyze changes since last tag
 
-Collect git logs from all three repos since `{PREV_VERSION}`:
+Collect git logs from the root repo and each sub-repo listed in build.md since `{PREV_VERSION}`:
 
 ```bash
-cd /home/marcin/repos/harmonify
 git log {PREV_VERSION}..HEAD --oneline
 
-cd harmonify-frontend
+cd {SUB_REPO_1}
 git log {PREV_VERSION}..HEAD --oneline 2>/dev/null || git log --oneline -20
 
-cd ../harmonify-music-server
+cd ../{SUB_REPO_2}
 git log {PREV_VERSION}..HEAD --oneline 2>/dev/null || git log --oneline -20
 ```
 
@@ -67,9 +76,9 @@ Wait for the answer. Save as `{CHANGELOG_BODY}`.
 
 ## 5. Update CHANGELOG.md
 
-Read `/home/marcin/repos/harmonify/CHANGELOG.md` to get `{PREV_VERSION}` from the first `## v` heading (confirm it matches what you found in step 1).
+Read the CHANGELOG file (path from build.md) to confirm `{PREV_VERSION}` matches the first `## v` heading.
 
-Prepend the new entry to `CHANGELOG.md` following the format in `changelog-example.md`:
+Prepend the new entry following the format in `changelog-example.md`:
 
 ```markdown
 <div align="right">
@@ -80,46 +89,37 @@ Prepend the new entry to `CHANGELOG.md` following the format in `changelog-examp
 
 {CHANGELOG_BODY}
 
-**Full Changelog**: https://github.com/MarcinSkic/harmonify-standalone/compare/{PREV_VERSION}...{VERSION}
+**Full Changelog**: https://github.com/{GITHUB_REPO}/compare/{PREV_VERSION}...{VERSION}
 
 ```
 
 Use today's date from `currentDate` context. If no previous tag exists, omit the Full Changelog line.
 
-## 6. Commit CHANGELOG.md
+## 6. Commit and push CHANGELOG.md
 
 ```bash
-cd /home/marcin/repos/harmonify
 git add CHANGELOG.md
 git commit -m "release: {VERSION}"
+git push origin main
 ```
 
-## 7. Create git tag
+## 7. Run both builds
+
+Use the build commands and artifact path patterns from build.md:
 
 ```bash
-cd /home/marcin/repos/harmonify
-git tag {VERSION}
-```
-
-## 8. Run both builds
-
-```bash
-cd /home/marcin/repos/harmonify
 ./build-linux.sh {VERSION}
 ./build-windows.sh {VERSION}
 ```
 
-Expected artifacts (from build.md):
-- `dist-linux/harmonify-standalone-{VERSION}-linux-x64.tar.gz`
-- `dist-windows/harmonify-standalone-{VERSION}-windows-x64.exe`
+## 8. Create GitHub release
 
-## 9. Create GitHub release
+Use the GitHub repo and artifact paths from build.md:
 
 ```bash
-cd /home/marcin/repos/harmonify
 gh release create {VERSION} \
-  "dist-linux/harmonify-standalone-{VERSION}-linux-x64.tar.gz" \
-  "dist-windows/harmonify-standalone-{VERSION}-windows-x64.exe" \
+  "{LINUX_ARTIFACT}" \
+  "{WINDOWS_ARTIFACT}" \
   --title "{VERSION}" \
   --notes "$(cat <<'NOTES'
 {CHANGELOG_BODY}
@@ -128,6 +128,14 @@ NOTES
 ```
 
 The `--notes` content is `{CHANGELOG_BODY}` only — without the `<div>` header and without the Full Changelog line (GitHub renders those separately).
+
+`gh release create` creates the tag on GitHub automatically.
+
+## 9. Fetch to sync tag locally
+
+```bash
+git fetch --tags
+```
 
 ## 10. Report
 

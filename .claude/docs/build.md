@@ -48,11 +48,27 @@ git tag --sort=-version:refname | head -1
 
 Tags follow semver: `v{MAJOR}.{MINOR}.{PATCH}` (e.g. `v0.1.0`).
 
+## Project Info
+
+| Key | Value |
+|---|---|
+| GitHub repo | `MarcinSkic/harmonify-standalone` |
+| CHANGELOG | `CHANGELOG.md` (in repo root) |
+
+## Sub-repos
+
+These directories live inside the repo root and should be included in change analysis:
+
+| Directory | Purpose |
+|---|---|
+| `harmonify-frontend` | Vue 3 frontend |
+| `harmonify-music-server` | ASP.NET Core music server |
+
 ## Release Artifacts
 
 Both of these must be attached to every GitHub release:
 
 | File | Platform |
 |---|---|
-| `dist-linux/harmonify-linux-x64.tar.gz` | Linux x64 |
-| `dist-windows/harmonify-standalone.exe` | Windows x64 |
+| `dist-linux/harmonify-standalone-{VERSION}-linux-x64.tar.gz` | Linux x64 |
+| `dist-windows/harmonify-standalone-{VERSION}-windows-x64.exe` | Windows x64 |
