@@ -13,7 +13,7 @@ Both scripts must be run from the repo root (`harmonify-standalone/`).
 ### Linux
 
 ```bash
-./build-linux.sh
+./build-linux.sh <version>  # e.g. ./build-linux.sh v0.1.1
 ```
 
 Steps:
@@ -24,18 +24,18 @@ Steps:
 
 **Artifacts:**
 - `dist-linux/harmonify-standalone` — Linux binary
-- `dist-linux/harmonify-linux-x64.tar.gz` — release archive (attach to GitHub release)
+- `dist-linux/harmonify-standalone-{VERSION}-linux-x64.tar.gz` — release archive (attach to GitHub release)
 
 ### Windows
 
 ```bash
-./build-windows.sh
+./build-windows.sh <version>  # e.g. ./build-windows.sh v0.1.1
 ```
 
 Same steps as Linux but targets `win-x64`. Can be cross-compiled from Linux.
 
 **Artifacts:**
-- `dist-windows/harmonify-standalone.exe` — Windows executable (attach to GitHub release)
+- `dist-windows/harmonify-standalone-{VERSION}-windows-x64.exe` — Windows executable (attach to GitHub release)
 
 ## Version Marker
 

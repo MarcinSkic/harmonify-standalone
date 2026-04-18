@@ -91,7 +91,7 @@ Use today's date from `currentDate` context. If no previous tag exists, omit the
 ```bash
 cd /home/marcin/repos/harmonify
 git add CHANGELOG.md
-git commit -m "docs: add changelog for {VERSION}"
+git commit -m "release: {VERSION}"
 ```
 
 ## 7. Create git tag
@@ -105,21 +105,21 @@ git tag {VERSION}
 
 ```bash
 cd /home/marcin/repos/harmonify
-./build-linux.sh
-./build-windows.sh
+./build-linux.sh {VERSION}
+./build-windows.sh {VERSION}
 ```
 
 Expected artifacts (from build.md):
-- `dist-linux/harmonify-linux-x64.tar.gz`
-- `dist-windows/harmonify-standalone.exe`
+- `dist-linux/harmonify-standalone-{VERSION}-linux-x64.tar.gz`
+- `dist-windows/harmonify-standalone-{VERSION}-windows-x64.exe`
 
 ## 9. Create GitHub release
 
 ```bash
 cd /home/marcin/repos/harmonify
 gh release create {VERSION} \
-  "dist-linux/harmonify-linux-x64.tar.gz" \
-  "dist-windows/harmonify-standalone.exe" \
+  "dist-linux/harmonify-standalone-{VERSION}-linux-x64.tar.gz" \
+  "dist-windows/harmonify-standalone-{VERSION}-windows-x64.exe" \
   --title "{VERSION}" \
   --notes "$(cat <<'NOTES'
 {CHANGELOG_BODY}

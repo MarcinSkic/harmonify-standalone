@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
+VERSION="${1:-}"
+if [[ -z "$VERSION" ]]; then
+  echo "Usage: $0 <version>  (e.g. v0.1.1)" >&2
+  exit 1
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FRONTEND_DIR="$SCRIPT_DIR/harmonify-frontend"
 SERVER_DIR="$SCRIPT_DIR/harmonify-music-server"
@@ -44,13 +50,14 @@ echo "==> Copying README..."
 cp "$SCRIPT_DIR/README.md" "$OUTPUT_DIR/README.md"
 
 echo "==> Creating release archive..."
-ARCHIVE="$OUTPUT_DIR/harmonify-linux-x64.tar.gz"
+ARCHIVE_NAME="harmonify-standalone-${VERSION}-linux-x64.tar.gz"
+ARCHIVE="$OUTPUT_DIR/$ARCHIVE_NAME"
 tar -czf "$ARCHIVE" -C "$OUTPUT_DIR" harmonify-standalone music README.md
 
 echo ""
 echo "Done!"
 echo "  Output dir: $OUTPUT_DIR"
-echo "  Archive:    harmonify-linux-x64.tar.gz"
+echo "  Archive:    $ARCHIVE_NAME"
 echo ""
 echo "To run on Linux:"
 echo "  1. Extract: tar -xzf harmonify-linux-x64.tar.gz"
