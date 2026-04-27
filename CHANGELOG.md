@@ -1,5 +1,77 @@
 <div align="right">
 
+## v0.4.0 (2026-04-27)
+
+</div>
+
+## Category limit modes
+
+When playing in category mode, a new setting controls how often teams can pick the same category:
+- **None** — no restriction (default)
+- **No-streak** — a team cannot pick the same category twice in a row
+- **Once each** — each team can pick each category only once per cycle, then the cycle resets
+
+## Category Sets
+
+Categories are now organized into sets linked to playlists. Each set defines its own ordering of categories, independent of other sets.
+
+- Full CRUD management of category sets in the library
+- Drag-and-drop reorder of members within a set
+- CSV import/export for set members
+- Linking a playlist to a set in the playlist sidebar
+- Multi-playlist selection in game setup — categories are gathered from all sets linked to the selected playlists and merged by ID
+- Per-playlist dynamic category type with configurable points in game settings
+
+## Improved track import from music server
+
+- Tracks now use their full relative path as `sourceId`, preventing collisions across folders
+- Re-importing a playlist updates existing tracks in place instead of creating duplicates
+- The enabled/disabled state is now tracked per playlist rather than globally, so disabling a track in one playlist does not affect others
+- CSV import still works by matching on the numeric tail of the old ID format
+
+## Playlist cover art
+
+Covers are now shown throughout the UI:
+- Import dialog displays cover thumbnails in the playlist grid
+- Library sidebar shows a square cover thumbnail next to each playlist name
+- Game setup shows playlists as cover cards instead of a flat button list
+
+## Playlist info saved in game results
+
+Playlist names and covers are stored alongside game results. The Results tab now shows which playlist each track came from, with its cover art.
+
+## Random track start
+
+A new playback setting controls where in the track playback begins:
+- **Beginning** — always starts from the start (default)
+- **Random** — starts at a random position within a configurable percentage range
+
+An override checkbox lets the host force a specific start position for the current round regardless of the setting.
+
+## Standard points in random mode
+
+Random mode now has a configurable standard points value. The scoring form shows three quick-award buttons: **Full**, **Full + Bonus**, and **Bonus**, so points can be awarded in one click without typing a number.
+
+## Track categories shown during scoring
+
+During the scoring phase, all game categories the current track belongs to are displayed as badges above the preview image. The category that was being played (with its points) appears last. This can be toggled via a game setting (`Show track categories`).
+
+## Bonus points renamed
+
+The "artist/album" label in the scoring form has been renamed to **Bonus points** to be more descriptive of its purpose (partial guesses: artist name, album name, etc.).
+
+## Show answer button disabled until music plays
+
+The "Show Answer" button is now disabled until the track has actually started playing, preventing accidental reveals before music loads.
+
+## Cheat input improvements
+
+The cheat input now accepts the full `sourceId` format (e.g. `folder/subfolder/track.flac`) in addition to the short numeric form, and can match any track in the database regardless of the currently selected playlist.
+
+**Full Changelog**: https://github.com/MarcinSkic/harmonify-standalone/compare/v0.3.0...v0.4.0
+
+<div align="right">
+
 ## v0.3.0 (2026-04-21)
 
 </div>
