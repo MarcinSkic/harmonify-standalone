@@ -1,5 +1,21 @@
 <div align="right">
 
+## v0.4.1 (2026-05-07)
+
+</div>
+
+## UI tweaks
+
+Small layout improvements across game views:
+
+- Results tab layout adjusted for laptop screen sizes
+- Track preview moved to the left side in round breakdown
+- Points badge repositioned to the corner of category cards
+
+**Full Changelog**: https://github.com/MarcinSkic/harmonify-standalone/compare/v0.4.0...v0.4.1
+
+<div align="right">
+
 ## v0.4.0 (2026-04-27)
 
 </div>
