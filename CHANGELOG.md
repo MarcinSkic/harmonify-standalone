@@ -1,5 +1,21 @@
 <div align="right">
 
+## v0.4.2 (2026-08-15)
+
+</div>
+
+## Fixes & Improvements
+
+- Added a button to show the track ID
+- Added the ability to award negative points
+- Added an indicator showing which team's round it is
+- Added a picker wheel for take overs
+- Changed the app port to avoid the ephemeral port range
+
+**Full Changelog**: https://github.com/MarcinSkic/harmonify-standalone/compare/v0.4.1...v0.4.2
+
+<div align="right">
+
 ## v0.4.1 (2026-05-07)
 
 </div>
