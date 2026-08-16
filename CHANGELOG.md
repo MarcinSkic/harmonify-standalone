@@ -1,5 +1,18 @@
 <div align="right">
 
+## v0.4.3 (2026-08-16)
+
+</div>
+
+## Fixes & Improvements
+
+- Highlighted the team that won a takeover (wheel spin or single candidate) in the scoring panel, so it's clear who receives the points
+- Added the configured music server URL to the "Import from music server" dialog title
+
+**Full Changelog**: https://github.com/MarcinSkic/harmonify-standalone/compare/v0.4.2...v0.4.3
+
+<div align="right">
+
 ## v0.4.2 (2026-08-15)
 
 </div>
