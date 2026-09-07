@@ -18,8 +18,8 @@ Both scripts must be run from the repo root (`harmonify-standalone/`).
 
 Steps:
 1. Builds frontend with `pnpm vite build --mode standalone`
-2. Copies `harmonify-frontend/dist/` → `harmonify-music-server/wwwroot/` (embedded into binary)
-3. Publishes `harmonify-music-server` as a self-contained single-file binary for `linux-x64`
+2. Copies `harmonify-frontend/dist/` → `mini-server/wwwroot/` (embedded into binary)
+3. Publishes `mini-server` as a self-contained single-file binary for `linux-x64`
 4. Packages into a release archive
 
 **Artifacts:**
@@ -57,12 +57,15 @@ Tags follow semver: `v{MAJOR}.{MINOR}.{PATCH}` (e.g. `v0.1.0`).
 
 ## Sub-repos
 
-These directories live inside the repo root and should be included in change analysis:
+`harmonify-frontend` is cloned into the repo root and should be included in change analysis:
 
 | Directory | Purpose |
 |---|---|
-| `harmonify-frontend` | Vue 3 frontend |
-| `harmonify-music-server` | ASP.NET Core music server |
+| `harmonify-frontend` | Vue 3 frontend (separate repo) |
+
+`mini-server/` is **not** a sub-repo — it is tracked in this repo and changes there are ordinary
+commits here. `harmonify-music-server/` is its archived predecessor; if a checkout is still lying
+around locally it is gitignored and no longer part of any build.
 
 ## Release Artifacts
 
