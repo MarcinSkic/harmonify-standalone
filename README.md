@@ -1,90 +1,77 @@
 # Harmonify
 
-Multiplayer "Name that tune" game. Guess tracks from your local music library.
+"Name that tune" game. Guess tracks from your own music library.
+
+Harmonify does not host music — it plays from **your** [Navidrome](https://www.navidrome.org/)
+server. Set that up first (or point Harmonify at one you already run).
 
 ## Running
 
 1. Download `harmonify-standalone.exe` from the [latest release](https://github.com/MarcinSkic/harmonify-standalone/releases/latest) and place it in a folder of your choice.
 
-2. Create a `music/` folder next to the exe and put your FLAC or MP3 files inside:
-   ```
-   harmonify-standalone.exe
-   music/
-   └── Playlist Name/
-       ├── 1. Track Title.flac
-       ├── 2. Another Track.flac
-       └── ...
-   ```
+2. Run `harmonify-standalone.exe`
 
-3. Run `harmonify-standalone.exe`
+3. Open **http://localhost:37450** in a browser
 
-4. Open **http://localhost:51234** in a browser
+4. Go to **Navidrome** and sign in with your server address, username and password:
+   ```
+   Server:   http://192.168.1.10:4533
+   Username: your Navidrome user
+   Password: your Navidrome password
+   ```
+   The password is never stored — it only goes to your own server when signing in.
 
 ## How to Play
 
 > **Note:** The standalone build supports **local mode only** — no Spotify, no multiplayer rooms.
 
-### 1. Add your tracks
+### 1. Browse your library
 
-Place FLAC or MP3 files in `music/` next to the exe, organized into playlist folders:
+**Navidrome** → pick an album or a playlist to see its tracks.
+Titles, artists, albums and cover art all come from your server's tags, so anything you fix in
+Navidrome shows up here.
 
-```
-music/
-└── My Playlist/
-    ├── 1. Never Gonna Give You Up.flac
-    ├── 2. Bohemian Rhapsody.mp3
-    └── ...
-```
+### 2. Annotate tracks (optional)
 
-ID3 tags (`title`, `artist`, `album`) are read automatically. The filename prefix (`1.`, `2.`, …) is **required** — it becomes the track's source ID used for CSV imports and library matching.
+Harmonify keeps its own annotations next to each Navidrome track — the clip to play, a cover image
+to show during the round, whether the track is used at all, plus any custom fields you define.
+Edit them per track in the track table, or in bulk with CSV (below).
 
-> **Restart required** if you add files while the server is already running.
+### 3. Annotate in bulk with CSV
 
-### 2. Import into the library
-
-Open **http://localhost:51234** → **Library** → click the server import button in the toolbar.  
-Select the playlists you want and click **Import selected**.
-
-### 3. Annotate tracks with CSV (optional)
-
-Create a `.csv` file with any of these columns (headers are case-insensitive):
+**Navidrome** → export the overlay CSV, edit it in a spreadsheet, import it back.
+Recognized columns (headers are case-insensitive):
 
 | Column | Description |
 |---|---|
-| `sourceId` | **Required** — file ID from the music server |
-| `tags` | Comma-and-space-separated tags, e.g. `ost, rock` |
+| `musicBrainzId` | Matches the track by its MusicBrainz ID |
+| `albumId`, `discNumber`, `track`, `title` | Fallback matching for tracks with no MusicBrainz ID |
+| `artist` | Shown in track lists and category rules |
 | `playbackRange` | Clip to play: `MM:SS - MM:SS`, e.g. `1:20 - 1:50` |
-| `enabled` | `true` or `false` — whether the track is included in games |
 | `previewImageUrl` | URL of a cover image shown during the round |
+| `enabled` | `true` or `false` — whether the track is included in games |
 
-### 4. Import the CSV into a playlist
+Any other column becomes a custom field. Import updates only the columns present in the file; it
+never creates tracks.
 
-Library → select a playlist in the sidebar → click the **CSV** button in the toolbar → choose your file.  
-CSV updates only the fields that are present; it never creates new tracks.
+### 4. Create categories (required for Category game mode)
 
-### 5. Create categories (required for Category game mode)
-
-Library → **Categories** → **Add category**.  
-A category groups one or more tags under a display name and point value.  
+**Library** → **Categories** → **Add category**.
+A category matches tracks by their fields and gives them a display name and a point value.
 At least one category must be enabled to start a game in Category mode.
 
-### 6. Start a game
+### 5. Start a game
 
-Home → **Play** → **New local**.  
-Pick a playlist, enter team names, choose your settings, and hit **Play!**
+Home → **Play** → **New local**.
+Pick an album or a playlist, enter team names, choose your settings, and hit **Play!**
 
 ## Configuration
 
-To change the port, music directory, or credentials, create `appsettings.json` next to the exe:
+To change the port, create `appsettings.json` next to the exe:
 
 ```json
 {
-  "Urls": "http://localhost:51234",
-  "MusicServer": {
-    "MusicDirectory": "./music",
-    "Username": "harmonify",
-    "Password": "mPGhyM8Pqr77hoH4"
-  }
+  "Urls": "http://localhost:37450"
 }
 ```
 
@@ -95,9 +82,8 @@ Requires: Node.js, pnpm, .NET 10 SDK
 ```bash
 git clone https://github.com/MarcinSkic/harmonify-standalone
 cd harmonify-standalone
-git clone https://github.com/MarcinSkic/harmonify-frontend
-git clone https://github.com/MarcinSkic/harmonify-music-server
-bash build-windows.sh
+git clone https://github.com/MarcinSkic/harmonify harmonify-frontend
+bash build-windows.sh v0.5.0   # the version tags the artifact filename
 ```
 
 Output in `dist-windows/`.
