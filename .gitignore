@@ -1,5 +1,12 @@
 harmonify-frontend/
+# archived predecessor of mini-server/ — ignored so a leftover local checkout stays out of the way
 harmonify-music-server/
 harmonify-api/
 dist-windows/
 dist-linux/
+
+# mini-server build output
+mini-server/bin/
+mini-server/obj/
+# frontend build copied in before publish, embedded into the binary
+mini-server/wwwroot/
